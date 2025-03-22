@@ -1,19 +1,22 @@
 package dev.epsi.MSPR.entities;
 
 import jakarta.persistence.*;
-
 import java.util.List;
 
-@Entity
+@Entity // Indique que cette classe est une entité JPA
+@Table(name = "maladie") // Optionnel : spécifie le nom de la table dans la base de données
 public class Maladie {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id // Indique que ce champ est la clé primaire
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Génère automatiquement la valeur de l'ID
     private Long id_maladie;
+
+    @Column(name = "nom_maladie", nullable = false) // Optionnel : spécifie le nom de la colonne et les contraintes
     private String nom_maladie;
 
-    @OneToMany(mappedBy = "maladie")
+    @OneToMany(mappedBy = "maladie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Statistique> statistiques;
 
+    // Getters et Setters
     public Long getId_maladie() {
         return id_maladie;
     }

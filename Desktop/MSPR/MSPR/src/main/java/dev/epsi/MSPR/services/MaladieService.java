@@ -12,14 +12,17 @@ public class MaladieService {
     private MaladieRepository maladieRepository;
 
     public List<Maladie> getAllMaladies() {
+
         return maladieRepository.findAll();
     }
 
     public Maladie getMaladieById(Long id) {
+
         return maladieRepository.findById(id).orElse(null);
     }
 
     public Maladie createMaladie(Maladie maladie) {
+
         return maladieRepository.save(maladie);
     }
 

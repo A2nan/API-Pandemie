@@ -12,14 +12,17 @@ public class RegionService {
     private RegionRepository regionRepository;
 
     public List<Region> getAllRegions() {
+
         return regionRepository.findAll();
     }
 
     public Region getRegionById(Long id) {
+
         return regionRepository.findById(id).orElse(null);
     }
 
     public Region createRegion(Region region) {
+
         return regionRepository.save(region);
     }
 

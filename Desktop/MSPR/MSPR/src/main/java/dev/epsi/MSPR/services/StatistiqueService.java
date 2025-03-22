@@ -12,14 +12,17 @@ public class StatistiqueService {
     private StatistiqueRepository statistiqueRepository;
 
     public List<Statistique> getAllStatistiques() {
+
         return statistiqueRepository.findAll();
     }
 
     public Statistique getStatistiqueById(Long id) {
+
         return statistiqueRepository.findById(id).orElse(null);
     }
 
     public Statistique createStatistique(Statistique statistique) {
+
         return statistiqueRepository.save(statistique);
     }
 

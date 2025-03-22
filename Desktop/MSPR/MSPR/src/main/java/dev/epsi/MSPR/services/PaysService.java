@@ -13,14 +13,17 @@ public class PaysService {
     private PaysRepository paysRepository;
 
     public List<Pays> getAllPays() {
+
         return paysRepository.findAll();
     }
 
     public Pays getPaysById(Long id) {
+
         return paysRepository.findById(id).orElse(null);
     }
 
     public Pays createPays(Pays pays) {
+
         return paysRepository.save(pays);
     }
 
