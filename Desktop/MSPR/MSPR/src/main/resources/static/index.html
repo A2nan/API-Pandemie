@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test API MSPR</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<h1>Test des routes de l'API MSPR</h1>
+<div class="container">
+    <!-- Section pour Pays -->
+    <section>
+        <h2>Pays</h2>
+        <button onclick="getAllPays()">Récupérer tous les pays</button>
+        <button onclick="getPaysById()">Récupérer un pays par ID</button>
+        <input type="text" id="paysId" placeholder="ID du pays">
+        <button onclick="addPays()">Ajouter un pays</button>
+        <input type="text" id="nomPays" placeholder="Nom du pays">
+        <button onclick="updatePays()">Mettre à jour un pays</button>
+        <input type="text" id="updatePaysId" placeholder="ID du pays">
+        <input type="text" id="updateNomPays" placeholder="Nouveau nom du pays">
+        <button onclick="deletePays()">Supprimer un pays</button>
+        <input type="text" id="deletePaysId" placeholder="ID du pays">
+        <pre id="paysResponse"></pre>
+    </section>
+
+    <!-- Section pour Region -->
+    <section>
+        <h2>Region</h2>
+        <button onclick="getAllRegions()">Récupérer toutes les régions</button>
+        <button onclick="getRegionById()">Récupérer une région par ID</button>
+        <input type="text" id="regionId" placeholder="ID de la région">
+        <button onclick="addRegion()">Ajouter une région</button>
+        <input type="text" id="nomRegion" placeholder="Nom de la région">
+        <input type="text" id="paysIdForRegion" placeholder="ID du pays">
+        <button onclick="updateRegion()">Mettre à jour une région</button>
+        <input type="text" id="updateRegionId" placeholder="ID de la région">
+        <input type="text" id="updateNomRegion" placeholder="Nouveau nom de la région">
+        <input type="text" id="updatePaysIdForRegion" placeholder="Nouvel ID du pays">
+        <button onclick="deleteRegion()">Supprimer une région</button>
+        <input type="text" id="deleteRegionId" placeholder="ID de la région">
+        <pre id="regionResponse"></pre>
+    </section>
+
+    <!-- Section pour Maladie -->
+    <section>
+        <h2>Maladie</h2>
+        <button onclick="getAllMaladies()">Récupérer toutes les maladies</button>
+        <button onclick="getMaladieById()">Récupérer une maladie par ID</button>
+        <input type="text" id="maladieId" placeholder="ID de la maladie">
+        <button onclick="addMaladie()">Ajouter une maladie</button>
+        <input type="text" id="nomMaladie" placeholder="Nom de la maladie">
+        <button onclick="updateMaladie()">Mettre à jour une maladie</button>
+        <input type="text" id="updateMaladieId" placeholder="ID de la maladie">
+        <input type="text" id="updateNomMaladie" placeholder="Nouveau nom de la maladie">
+        <button onclick="deleteMaladie()">Supprimer une maladie</button>
+        <input type="text" id="deleteMaladieId" placeholder="ID de la maladie">
+        <pre id="maladieResponse"></pre>
+    </section>
+
+    <!-- Section pour Statistique -->
+    <section>
+        <h2>Statistique</h2>
+        <button onclick="getAllStatistiques()">Récupérer toutes les statistiques</button>
+        <button onclick="getStatistiqueById()">Récupérer une statistique par ID</button>
+        <input type="text" id="statistiqueId" placeholder="ID de la statistique">
+        <button onclick="addStatistique()">Ajouter une statistique</button>
+        <input type="text" id="dateStatistique" placeholder="Date (AAAA-MM-JJ)">
+        <input type="number" id="nouveauMort" placeholder="Nouveaux morts">
+        <input type="number" id="nouveauCas" placeholder="Nouveaux cas">
+        <input type="number" id="nouveauRetabli" placeholder="Nouveaux rétablis">
+        <input type="number" id="totalMort" placeholder="Total morts">
+        <input type="number" id="totalCas" placeholder="Total cas">
+        <input type="number" id="totalRetabli" placeholder="Total rétablis">
+        <input type="text" id="maladieIdForStatistique" placeholder="ID de la maladie">
+        <input type="text" id="regionIdForStatistique" placeholder="ID de la région">
+        <button onclick="updateStatistique()">Mettre à jour une statistique</button>
+        <input type="text" id="updateStatistiqueId" placeholder="ID de la statistique">
+        <button onclick="deleteStatistique()">Supprimer une statistique</button>
+        <input type="text" id="deleteStatistiqueId" placeholder="ID de la statistique">
+        <pre id="statistiqueResponse"></pre>
+    </section>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
