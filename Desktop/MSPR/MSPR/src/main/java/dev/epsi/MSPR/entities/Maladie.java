@@ -1,19 +1,24 @@
 package dev.epsi.MSPR.entities;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import java.util.List;
 
-@Entity // Indique que cette classe est une entité JPA
-@Table(name = "maladie") // Optionnel : spécifie le nom de la table dans la base de données
+@Entity
+@Schema(description = "Représente une maladie")
+@Table(name = "maladie")
 public class Maladie {
-    @Id // Indique que ce champ est la clé primaire
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Génère automatiquement la valeur de l'ID
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "ID de la maladie", example = "1")
     private Long id_maladie;
 
-    @Column(name = "nom_maladie", nullable = false) // Optionnel : spécifie le nom de la colonne et les contraintes
+    @Column(name = "nom_maladie", nullable = false)
+    @Schema(description = "Nom de la maladie", example = "COVID-19")
     private String nom_maladie;
 
     @OneToMany(mappedBy = "maladie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Schema(description = "List des statistiques associées à la maladie", example = "COVID-19")
     private List<Statistique> statistiques;
 
     // Getters et Setters

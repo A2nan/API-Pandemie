@@ -1,23 +1,30 @@
 package dev.epsi.MSPR.entities;
 
 import jakarta.persistence.*;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 
 @Entity
+@Schema(description = "Représente une région")
 public class Region {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "ID de la région", example = "1")
     private Long id_region;
+
+    @Schema(description = "Nom de la région", example = "Île-de-France")
     private String nom_region;
 
     @ManyToOne
     @JoinColumn(name = "id_pays")
+    @Schema(description = "Pays associé à la région")
     private Pays pays;
 
     @OneToMany(mappedBy = "region")
+    @Schema(description = "Liste des statistiques associées à la région")
     private List<Statistique> statistiques;
 
+    //Getter et Setter
     public Long getId_region() {
         return id_region;
     }

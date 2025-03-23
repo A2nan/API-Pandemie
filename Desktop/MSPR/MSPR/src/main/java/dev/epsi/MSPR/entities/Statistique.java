@@ -1,31 +1,49 @@
 package dev.epsi.MSPR.entities;
 
 import jakarta.persistence.*;
-
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDate;
 
-
 @Entity
+@Schema(description = "Représente une statistique")
 public class Statistique {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "ID de la statistique", example = "1")
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "id_maladie")
+    @Schema(description = "Maladie associée à la statistique")
     private Maladie maladie;
 
     @ManyToOne
     @JoinColumn(name = "id_region")
+    @Schema(description = "Région associée à la statistique")
     private Region region;
 
+    @Schema(description = "Date de la statistique", example = "2023-10-01")
     private LocalDate date;
+
+    @Schema(description = "Nombre de nouveaux morts", example = "10")
     private int nouveau_mort;
+
+    @Schema(description = "Nombre de nouveaux cas", example = "100")
     private int nouveau_cas;
+
+    @Schema(description = "Nombre de nouveaux rétablis", example = "50")
     private int nouveau_rétabli;
+
+    @Schema(description = "Total des morts", example = "200")
     private int total_mort;
+
+    @Schema(description = "Total des cas", example = "1000")
     private int total_cas;
+
+    @Schema(description = "Total des rétablis", example = "500")
     private int total_rétabli;
+
+    // Getters et Setters
 
     public Long getId() {
         return id;
