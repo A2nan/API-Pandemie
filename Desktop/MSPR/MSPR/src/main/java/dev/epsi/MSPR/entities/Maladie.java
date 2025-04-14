@@ -17,10 +17,6 @@ public class Maladie {
     @Schema(description = "Nom de la maladie", example = "COVID-19")
     private String nom_maladie;
 
-    @OneToMany(mappedBy = "maladie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @Schema(description = "List des statistiques associées à la maladie", example = "COVID-19")
-    private List<Statistique> statistiques;
-
     // Getters et Setters
     public Long getId_maladie() {
         return id_maladie;
@@ -36,13 +32,5 @@ public class Maladie {
 
     public void setNom_maladie(String nom_maladie) {
         this.nom_maladie = nom_maladie;
-    }
-
-    public List<Statistique> getStatistiques() {
-        return statistiques;
-    }
-
-    public void setStatistiques(List<Statistique> statistiques) {
-        this.statistiques = statistiques;
     }
 }

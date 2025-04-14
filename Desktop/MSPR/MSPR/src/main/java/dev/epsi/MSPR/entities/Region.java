@@ -2,6 +2,8 @@ package dev.epsi.MSPR.entities;
 
 import jakarta.persistence.*;
 import io.swagger.v3.oas.annotations.media.Schema;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.List;
 
 @Entity
@@ -17,6 +19,7 @@ public class Region {
 
     @ManyToOne
     @JoinColumn(name = "id_pays")
+    @JsonIgnoreProperties("regions")
     @Schema(description = "Pays associé à la région")
     private Pays pays;
 
@@ -24,7 +27,7 @@ public class Region {
     @Schema(description = "Liste des statistiques associées à la région")
     private List<Statistique> statistiques;
 
-    //Getter et Setter
+    // Getters & Setters
     public Long getId_region() {
         return id_region;
     }
