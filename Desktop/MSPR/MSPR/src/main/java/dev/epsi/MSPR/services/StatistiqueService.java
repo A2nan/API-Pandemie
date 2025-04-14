@@ -31,10 +31,8 @@ public class StatistiqueService {
         if (statistique != null) {
             statistique.setNouveau_mort(statistiqueDetails.getNouveau_mort());
             statistique.setNouveau_cas(statistiqueDetails.getNouveau_cas());
-            statistique.setNouveau_rétabli(statistiqueDetails.getNouveau_rétabli());
             statistique.setTotal_mort(statistiqueDetails.getTotal_mort());
             statistique.setTotal_cas(statistiqueDetails.getTotal_cas());
-            statistique.setTotal_rétabli(statistiqueDetails.getTotal_rétabli());
             return statistiqueRepository.save(statistique);
         }
         return null;

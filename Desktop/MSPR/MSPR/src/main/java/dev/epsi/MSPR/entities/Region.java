@@ -1,5 +1,7 @@
 package dev.epsi.MSPR.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -19,11 +21,12 @@ public class Region {
 
     @ManyToOne
     @JoinColumn(name = "id_pays")
-    @JsonIgnoreProperties("regions")
+    @JsonBackReference // 🔁 côté enfant de la relation Pays → Région
     @Schema(description = "Pays associé à la région")
     private Pays pays;
 
     @OneToMany(mappedBy = "region")
+    @JsonManagedReference // 🔁 côté parent de la relation Région → Statistique
     @Schema(description = "Liste des statistiques associées à la région")
     private List<Statistique> statistiques;
 

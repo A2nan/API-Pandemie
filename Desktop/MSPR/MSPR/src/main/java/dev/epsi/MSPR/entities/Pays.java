@@ -2,6 +2,7 @@ package dev.epsi.MSPR.entities;
 
 import jakarta.persistence.*;
 import io.swagger.v3.oas.annotations.media.Schema;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.List;
 
 @Entity
@@ -16,9 +17,11 @@ public class Pays {
     private String nom_pays;
 
     @OneToMany(mappedBy = "pays")
+    @JsonManagedReference  // 🔧 empêche la récursion infinie
     @Schema(description = "Liste des régions associées au pays")
     private List<Region> regions;
 
+    // Getters & Setters
     public Long getId_pays() {
         return id_pays;
     }
