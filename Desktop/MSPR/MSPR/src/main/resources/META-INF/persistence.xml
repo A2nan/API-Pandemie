@@ -8,9 +8,9 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
         <properties>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://uyam655bf5pjk8hlhq8l:uAGlvCoVDVthBpnYHs2U1eYFWMbq5K@btacmoquqdxb7cy8isyn-postgresql.services.clever-cloud.com:50013/btacmoquqdxb7cy8isyn"/>
-            <property name="jakarta.persistence.jdbc.user" value="uyam655bf5pjk8hlhq8l"/>
-            <property name="jakarta.persistence.jdbc.password" value="uAGlvCoVDVthBpnYHs2U1eYFWMbq5K"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://bpziqzdsvdgpbxyvg2qg-postgresql.services.clever-cloud.com:50013/bpziqzdsvdgpbxyvg2qg"/>
+            <property name="jakarta.persistence.jdbc.user" value="uzjzegjp9kw0jmrmjr0s"/>
+            <property name="jakarta.persistence.jdbc.password" value="7LOGZG8w6D929HCLAEYyKI86SA14Xd"/>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
 
             <property name="hibernate.hbm2ddl.auto" value="update"/>
