@@ -1,5 +1,6 @@
 package dev.epsi.MSPR.controllers;
 
+import dev.epsi.MSPR.DTO.PaysDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/pays")
@@ -18,9 +20,11 @@ public class PaysController {
     private PaysService paysService;
 
     @GetMapping
-    @Operation(summary = "Récupérer tous les pays", description = "Retourne une liste de tous les pays.")
-    public List<Pays> getAllPays() {
-        return paysService.getAllPays();
+    public List<PaysDto> getAllPays() {
+        return paysService.getAllPays()
+                .stream()
+                .map(PaysDto::new)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
