@@ -69,54 +69,6 @@ public class StatistiqueController {
         statistiqueService.deleteStatistique(id);
     }
 
-    @GetMapping("/morts-par-jour")
-    public ResponseEntity<?> getMortsParJourParPays(@RequestParam Long paysId) {
-        try {
-            List<Statistique> stats = statistiqueRepository.findByPaysId(paysId);
-
-            List<Map<String, Object>> result = stats.stream()
-                    .collect(Collectors.groupingBy(
-                            Statistique::getDate,
-                            TreeMap::new,
-                            Collectors.summingInt(Statistique::getNouveau_mort)
-                    ))
-                    .entrySet().stream()
-                    .map(entry -> {
-                        Map<String, Object> map = new HashMap<>();
-                        map.put("date", entry.getKey());
-                        map.put("morts", entry.getValue());
-                        return map;
-                    })
-                    .collect(Collectors.toList());
-
-            return ResponseEntity.ok(result);
-
-        } catch (Exception e) {
-            e.printStackTrace(); // log sur la console backend
-            return ResponseEntity.status(500).body("Erreur backend : " + e.getMessage());
-        }
-    }
-
-    @GetMapping("/morts-par-jour-maladie")
-    public List<Map<String, Object>> getMortsParJourParPaysEtMaladie(@RequestParam Long paysId, @RequestParam Long maladieId) {
-        List<Statistique> stats = statistiqueRepository.findByPaysAndMaladie(paysId, maladieId);
-
-        return stats.stream()
-                .collect(Collectors.groupingBy(
-                        Statistique::getDate,
-                        TreeMap::new,
-                        Collectors.summingInt(Statistique::getNouveau_mort)
-                ))
-                .entrySet().stream()
-                .map(entry -> {
-                    Map<String, Object> map = new HashMap<>();
-                    map.put("date", entry.getKey());
-                    map.put("morts", entry.getValue());
-                    return map;
-                })
-                .collect(Collectors.toList());
-    }
-
     @GetMapping("/donnees-par-jour")
     public List<Map<String, Object>> getDonneesParJour(
             @RequestParam Long paysId,
@@ -172,7 +124,4 @@ public class StatistiqueController {
                 })
                 .collect(Collectors.toList());
     }
-
-
-
 }
