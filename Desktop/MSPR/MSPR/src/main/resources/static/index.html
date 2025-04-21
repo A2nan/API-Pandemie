@@ -2,87 +2,294 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test API MSPR</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Graphique dynamique</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- ✅ Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-<h1>Test des routes de l'API MSPR</h1>
-<div class="container">
-    <!-- Section pour Pays -->
-    <section>
-        <h2>Pays</h2>
-        <button onclick="getAllPays()">Récupérer tous les pays</button>
-        <button onclick="getPaysById()">Récupérer un pays par ID</button>
-        <input type="text" id="paysId" placeholder="ID du pays">
-        <button onclick="addPays()">Ajouter un pays</button>
-        <input type="text" id="nomPays" placeholder="Nom du pays">
-        <button onclick="updatePays()">Mettre à jour un pays</button>
-        <input type="text" id="updatePaysId" placeholder="ID du pays">
-        <input type="text" id="updateNomPays" placeholder="Nouveau nom du pays">
-        <button onclick="deletePays()">Supprimer un pays</button>
-        <input type="text" id="deletePaysId" placeholder="ID du pays">
-        <pre id="paysResponse"></pre>
-    </section>
+<body class="bg-light">
 
-    <!-- Section pour Region -->
-    <section>
-        <h2>Region</h2>
-        <button onclick="getAllRegions()">Récupérer toutes les régions</button>
-        <button onclick="getRegionById()">Récupérer une région par ID</button>
-        <input type="text" id="regionId" placeholder="ID de la région">
-        <button onclick="addRegion()">Ajouter une région</button>
-        <input type="text" id="nomRegion" placeholder="Nom de la région">
-        <input type="text" id="paysIdForRegion" placeholder="ID du pays">
-        <button onclick="updateRegion()">Mettre à jour une région</button>
-        <input type="text" id="updateRegionId" placeholder="ID de la région">
-        <input type="text" id="updateNomRegion" placeholder="Nouveau nom de la région">
-        <input type="text" id="updatePaysIdForRegion" placeholder="Nouvel ID du pays">
-        <button onclick="deleteRegion()">Supprimer une région</button>
-        <input type="text" id="deleteRegionId" placeholder="ID de la région">
-        <pre id="regionResponse"></pre>
-    </section>
+  
+<script>
+    const apiBase = "http://localhost:8080/api";
 
-    <!-- Section pour Maladie -->
-    <section>
-        <h2>Maladie</h2>
-        <button onclick="getAllMaladies()">Récupérer toutes les maladies</button>
-        <button onclick="getMaladieById()">Récupérer une maladie par ID</button>
-        <input type="text" id="maladieId" placeholder="ID de la maladie">
-        <button onclick="addMaladie()">Ajouter une maladie</button>
-        <input type="text" id="nomMaladie" placeholder="Nom de la maladie">
-        <button onclick="updateMaladie()">Mettre à jour une maladie</button>
-        <input type="text" id="updateMaladieId" placeholder="ID de la maladie">
-        <input type="text" id="updateNomMaladie" placeholder="Nouveau nom de la maladie">
-        <button onclick="deleteMaladie()">Supprimer une maladie</button>
-        <input type="text" id="deleteMaladieId" placeholder="ID de la maladie">
-        <pre id="maladieResponse"></pre>
-    </section>
+    let selectedPays = null;
+    let selectedMaladie = null;
+    let selectedType = "nouveau_mort";
+    let chart, topChart, compareChart;
+    let currentLabels = [], currentValues = [];
 
-    <!-- Section pour Statistique -->
-    <section>
-        <h2>Statistique</h2>
-        <button onclick="getAllStatistiques()">Récupérer toutes les statistiques</button>
-        <button onclick="getStatistiqueById()">Récupérer une statistique par ID</button>
-        <input type="text" id="statistiqueId" placeholder="ID de la statistique">
-        <button onclick="addStatistique()">Ajouter une statistique</button>
-        <input type="text" id="dateStatistique" placeholder="Date (AAAA-MM-JJ)">
-        <input type="number" id="nouveauMort" placeholder="Nouveaux morts">
-        <input type="number" id="nouveauCas" placeholder="Nouveaux cas">
-        <input type="number" id="nouveauRetabli" placeholder="Nouveaux rétablis">
-        <input type="number" id="totalMort" placeholder="Total morts">
-        <input type="number" id="totalCas" placeholder="Total cas">
-        <input type="number" id="totalRetabli" placeholder="Total rétablis">
-        <input type="text" id="maladieIdForStatistique" placeholder="ID de la maladie">
-        <input type="text" id="regionIdForStatistique" placeholder="ID de la région">
-        <button onclick="updateStatistique()">Mettre à jour une statistique</button>
-        <input type="text" id="updateStatistiqueId" placeholder="ID de la statistique">
-        <button onclick="deleteStatistique()">Supprimer une statistique</button>
-        <input type="text" id="deleteStatistiqueId" placeholder="ID de la statistique">
-        <pre id="statistiqueResponse"></pre>
-    </section>
-</div>
+    async function loadPays() {
+        const res = await fetch(`${apiBase}/pays`);
+        const paysList = await res.json();
 
-<script src="script.js"></script>
+        const select = document.getElementById("pays-select");
+        select.innerHTML = "";
+        paysList.forEach(p => {
+            const option = document.createElement("option");
+            option.value = p.id_pays;
+            option.textContent = p.nom_pays;
+            select.appendChild(option);
+        });
+
+        selectedPays = paysList[0].id_pays;
+        select.addEventListener("change", (e) => {
+            selectedPays = e.target.value;
+            loadData();
+        });
+    }
+
+    async function loadMaladies() {
+        const res = await fetch(`${apiBase}/maladies`);
+        const maladieList = await res.json();
+
+        const select = document.getElementById("maladie-select");
+        select.innerHTML = "";
+        maladieList.forEach(m => {
+            const option = document.createElement("option");
+            option.value = m.id_maladie;
+            option.textContent = m.nom_maladie;
+            select.appendChild(option);
+        });
+
+        selectedMaladie = maladieList[0].id_maladie;
+        select.addEventListener("change", (e) => {
+            selectedMaladie = e.target.value;
+            loadData();
+        });
+
+        await loadTopPaysChart(selectedMaladie); // top séparé
+    }
+
+    document.getElementById("type-select").addEventListener("change", (e) => {
+        selectedType = e.target.value;
+        loadData();
+    });
+
+    function truncateTrailingZeros(data) {
+        let lastNonZero = data.length - 1;
+        while (lastNonZero >= 0 && data[lastNonZero].valeur === 0) {
+            lastNonZero--;
+        }
+        return data.slice(0, lastNonZero + 1);
+    }
+
+    async function loadData() {
+        if (!selectedPays || !selectedMaladie || !selectedType) return;
+
+        const res = await fetch(`${apiBase}/statistiques/donnees-par-jour?paysId=${selectedPays}&maladieId=${selectedMaladie}&type=${selectedType}`);
+        const rawData = await res.json();
+        const data = truncateTrailingZeros(rawData);
+
+        currentLabels = data.map(d => d.date);
+        currentValues = data.map(d => d.valeur);
+
+        if (chart) chart.destroy();
+
+        chart = new Chart(document.getElementById("mortChart"), {
+            type: 'line',
+            data: {
+                labels: currentLabels,
+                datasets: [{
+                    label: `Données : ${selectedType.replaceAll("_", " ")}`,
+                    data: currentValues,
+                    borderWidth: 2,
+                    borderColor: 'blue',
+                    backgroundColor: 'rgba(0,0,255,0.2)',
+                    fill: true,
+                    pointRadius: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: { title: { display: true, text: 'Date' }},
+                    y: { title: { display: true, text: selectedType }}
+                }
+            }
+        });
+
+        await loadComparisonChart();
+        await loadTopPaysChart(selectedMaladie);
+    }
+
+    async function loadComparisonChart() {
+        if (!selectedPays || !selectedMaladie) return;
+
+        const res = await fetch(`${apiBase}/statistiques/donnees-par-jour?paysId=${selectedPays}&maladieId=${selectedMaladie}&type=total_mort`);
+        const mortsData = await res.json();
+
+        const res2 = await fetch(`${apiBase}/statistiques/donnees-par-jour?paysId=${selectedPays}&maladieId=${selectedMaladie}&type=total_cas`);
+        const casData = await res2.json();
+
+        const mortsClean = truncateTrailingZeros(mortsData);
+        const casClean = truncateTrailingZeros(casData);
+
+        const labels = mortsClean.map(d => d.date);
+        const valeursMorts = mortsClean.map(d => d.valeur);
+        const valeursCas = casClean.map(d => d.valeur);
+
+        // ➕ Calcul du taux de létalité en %
+        const pourcentages = valeursMorts.map((mort, i) => {
+            const cas = valeursCas[i];
+            return (cas && cas > 0) ? ((mort / cas) * 100).toFixed(2) : 0;
+        });
+
+        if (compareChart) compareChart.destroy();
+
+        compareChart = new Chart(document.getElementById("compareChart"), {
+            type: 'line',
+            data: {
+                labels,
+                datasets: [
+                    {
+                        label: 'Total morts',
+                        data: valeursMorts,
+                        borderColor: 'red',
+                        backgroundColor: 'rgba(255,0,0,0.1)',
+                        pointBorderColor: 'red',
+                        pointBackgroundColor: 'red',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.1,
+                        pointRadius: 3,
+                        pointStyle: 'rect',
+                        yAxisID: 'y'
+                    },
+                    {
+                        label: 'Total cas',
+                        data: valeursCas,
+                        borderColor: 'green',
+                        backgroundColor: 'rgba(0,255,0,0.1)',
+                        pointBorderColor: 'green',
+                        pointBackgroundColor: 'green',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.1,
+                        pointRadius: 3,
+                        pointStyle: 'circle',
+                        yAxisID: 'y'
+                    },
+                    {
+                        label: 'Taux de létalité (%)',
+                        data: pourcentages,
+                        borderColor: 'black',
+                        backgroundColor: 'rgba(0,0,0,0.05)',
+                        borderDash: [5, 5],
+                        pointBorderColor: 'black',
+                        pointBackgroundColor: 'black',
+                        fill: false,
+                        tension: 0.1,
+                        borderWidth: 2,
+                        pointRadius: 3,
+                        pointStyle: 'crossRot',
+                        yAxisID: 'y2'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+                plugins: {
+                    tooltip: {
+                        usePointStyle: true,
+                        callbacks: {
+                            labelPointStyle: (context) => {
+                                return {
+                                    pointStyle: context.dataset.pointStyle || 'circle',
+                                    rotation: 0
+                                };
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Date' }
+                    },
+                    y: {
+                        type: 'linear',
+                        position: 'left',
+                        title: { display: true, text: 'Valeurs cumulées' }
+                    },
+                    y2: {
+                        type: 'linear',
+                        position: 'right',
+                        title: { display: true, text: 'Taux de létalité (%)' },
+                        grid: { drawOnChartArea: false },
+                        min: 0,
+                        max: 100
+                    }
+                }
+            }
+        });
+    }
+
+
+    async function loadTopPaysChart(maladieId) {
+        const res = await fetch(`${apiBase}/statistiques/top-pays-morts?maladieId=${maladieId}`);
+        const data = await res.json();
+
+        const labels = data.map(d => d.pays);
+        const valeurs = data.map(d => d.total);
+
+        if (topChart) topChart.destroy();
+
+        topChart = new Chart(document.getElementById("topPaysChart"), {
+            type: 'bar',
+            data: {
+                labels,
+                datasets: [{
+                    label: 'Total des morts',
+                    data: valeurs,
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                indexAxis: 'y',
+                scales: {
+                    x: { title: { display: true, text: 'Nombre de morts' }},
+                    y: { title: { display: true, text: 'Pays' }}
+                }
+            }
+        });
+    }
+
+    // ✅ Fonction d'export CSV
+    function exportToCSV(labels, values) {
+        let csv = "Date,Valeur\n";
+        for (let i = 0; i < labels.length; i++) {
+            csv += `${labels[i]},${values[i]}\n`;
+        }
+
+        const blob = new Blob([csv], { type: "text/csv" });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `statistiques_${selectedType}_${selectedPays}_${selectedMaladie}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    // ✅ Événement sur le bouton
+    document.getElementById("export-btn").addEventListener("click", () => {
+        exportToCSV(currentLabels, currentValues);
+    });
+
+    (async function () {
+        await loadPays();
+        await loadMaladies();
+        await loadData();
+    })();
+</script>
 </body>
 </html>
