@@ -1,11 +1,11 @@
 package dev.epsi.MSPR.controllers;
 
 import dev.epsi.MSPR.DTO.PaysDto;
+import dev.epsi.MSPR.entities.Pays;
+import dev.epsi.MSPR.services.PaysService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import dev.epsi.MSPR.entities.Pays;
-import dev.epsi.MSPR.services.PaysService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

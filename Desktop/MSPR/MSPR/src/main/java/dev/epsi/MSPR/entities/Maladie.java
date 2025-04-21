@@ -2,7 +2,6 @@ package dev.epsi.MSPR.entities;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
-import java.util.List;
 
 @Entity
 @Schema(description = "Représente une maladie")

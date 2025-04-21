@@ -12,14 +12,13 @@ public class PaysDto {
     private List<Long> regions;
 
     public PaysDto(Pays pays) {
-        this.id_pays = pays.getId_pays();
+        this.id_pays = pays.getId_pays(); // ✅ on revient sur id_pays
         this.nom_pays = pays.getNom_pays();
         this.regions = pays.getRegions() != null
                 ? pays.getRegions().stream().map(Region::getId_region).collect(Collectors.toList())
-                : List.of(); // si null
+                : List.of();
     }
 
-    // Getters
     public Long getId_pays() {
         return id_pays;
     }

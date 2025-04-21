@@ -1,10 +1,13 @@
 package dev.epsi.MSPR.controllers;
 
+import dev.epsi.MSPR.DTO.RegionDto;
 import dev.epsi.MSPR.entities.Region;
 import dev.epsi.MSPR.services.RegionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -18,10 +21,11 @@ public class RegionController {
     private RegionService regionService;
 
     @GetMapping
-    @Operation(summary = "Récupérer toutes les régions", description = "Retourne une liste de toutes les régions.")
-    @ApiResponse(responseCode = "200", description = "Liste des régions récupérée avec succès")
-    public List<Region> getAllRegions() {
-        return regionService.getAllRegions();
+    public List<RegionDto> getAllRegions() {
+        return regionService.getAllRegions()
+                .stream()
+                .map(RegionDto::new)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")

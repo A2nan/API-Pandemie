@@ -11,7 +11,7 @@ public class Statistique {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description = "ID de la statistique", example = "1")
-    private Long id;
+    private Long id_statistique;
 
     @ManyToOne
     @JoinColumn(name = "id_maladie")
@@ -41,11 +41,11 @@ public class Statistique {
 
     // Getters et Setters
     public Long getId() {
-        return id;
+        return id_statistique;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.id_statistique = id;
     }
 
     public Maladie getMaladie() {

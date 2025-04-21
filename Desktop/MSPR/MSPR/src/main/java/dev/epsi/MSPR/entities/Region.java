@@ -1,11 +1,15 @@
 package dev.epsi.MSPR.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import dev.epsi.MSPR.config.BigDecimalSerializer;
 import jakarta.persistence.*;
 import io.swagger.v3.oas.annotations.media.Schema;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -18,6 +22,15 @@ public class Region {
 
     @Schema(description = "Nom de la région", example = "Île-de-France")
     private String nom_region;
+
+    // 👇 Type : BigDecimal
+    @Column(precision = 10, scale = 6)
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private BigDecimal latitude;
+
+    @Column(precision = 10, scale = 6)
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private BigDecimal longitude;
 
     @ManyToOne
     @JoinColumn(name = "id_pays")
@@ -45,6 +58,22 @@ public class Region {
 
     public void setNom_region(String nom_region) {
         this.nom_region = nom_region;
+    }
+
+    public BigDecimal getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(BigDecimal latitude) {
+        this.latitude = latitude;
+    }
+
+    public BigDecimal getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(BigDecimal longitude) {
+        this.longitude = longitude;
     }
 
     public Pays getPays() {
