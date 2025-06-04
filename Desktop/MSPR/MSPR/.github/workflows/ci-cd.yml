@@ -1,0 +1,41 @@
+# .github/workflows/ci-cd.yml
+name: Java CI with Maven & Docker
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-package:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v3
+
+      - name: ☕ Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: 17
+
+      - name: 📦 Build with Maven
+        run: mvn clean package -DskipTests
+
+      - name: 🐳 Build Docker image
+        run: |
+          docker build -t mspr-app .
+
+    # Optionnel : si tu veux push sur DockerHub plus tard
+    # - name: 🔐 Login to DockerHub
+    #   uses: docker/login-action@v2
+    #   with:
+    #     username: ${{ secrets.DOCKER_USERNAME }}
+    #     password: ${{ secrets.DOCKER_PASSWORD }}
+
+    # - name: 🚀 Push to DockerHub
+    #   run: |
+    #     docker tag mspr-app yourdockerhub/mspr-app:latest
+    #     docker push yourdockerhub/mspr-app:latest

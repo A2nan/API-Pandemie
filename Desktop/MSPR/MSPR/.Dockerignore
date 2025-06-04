@@ -1,0 +1,23 @@
+# Maven
+target/
+.mvn/
+pom.xml.tag
+pom.xml.releaseBackup
+release.properties
+
+# IDE / OS
+.idea/
+*.iml
+*.log
+*.swp
+*.tmp
+*.bak
+.DS_Store
+
+# Git
+.git/
+.gitignore
+
+# Node (si tu as du frontend)
+node_modules/
+dist/
