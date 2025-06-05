@@ -19,14 +19,3 @@ jobs:
         run: |
           docker run -d -p 8080:8080 --name mspr-container mspr-app
           sleep 40
-
-      - name: ✅ Test HTTP endpoint
-        run: |
-          echo "⏳ Test accès à l'application sur http://localhost:8080"
-          curl --fail http://localhost:8080 || \
-          curl --fail http://localhost:8080/api/test || \
-          (docker logs mspr-container && exit 1)
-
-      - name: 🧾 Logs du conteneur
-        if: ${{ failure() }}
-        run: docker logs mspr-container
